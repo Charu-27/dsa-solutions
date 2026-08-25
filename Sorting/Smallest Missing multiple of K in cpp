@@ -1,0 +1,30 @@
+// Problem: smallest-missing-multiple-of-k (LeetCode #3718)
+// Link: https://leetcode.com/problems/smallest-missing-multiple-of-k/
+// Approach: Generate the first 100 multiples of k, sort nums, and linearly
+//           search for the first multiple not present in nums.
+// Time: O(N log N) -- O(N log N) for sorting + O(100*N) for the linear searches (100 is constant)
+// Space: O(1) -- multiples vector holds a fixed 100 elements, independent of N
+
+class Solution {
+public:
+    int missingMultiple(vector<int>& nums, int k) {
+        sort(nums.begin(), nums.end());
+        int ans = 0;
+        vector<int> multiples;
+        for (int i = 1; i <= 100; i++) {
+            multiples.push_back(k * i);
+        }
+        for (int i = 0; i < 100; i++) {
+            if (find(nums.begin(), nums.end(), multiples[i]) != nums.end()) {
+                continue;
+            } else {
+                ans = multiples[i];
+                break;
+            }
+        }
+        return ans;
+    }
+};
+
+
+
